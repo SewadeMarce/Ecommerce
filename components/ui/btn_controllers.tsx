@@ -15,7 +15,7 @@ import mongoose from "mongoose";
    quantity: number;
  }
 
- export default function CartItemControls({ productId, quantity }: CartItemControlsProps) {
+ export default function CartItemControls({ productId, quantity=0, }: CartItemControlsProps) {
    const [pending, startTransition] = useTransition();
 
    const handleUpdate = (newQuantity: number) => {
@@ -40,7 +40,6 @@ import mongoose from "mongoose";
          className="p-1 rounded border hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
          aria-label="Diminuer la quantité"
        >
-         {/* Si vous n'avez pas d'icônes, mettez juste "-" */}
          <Minus size={16} />
        </button>
 

@@ -1,23 +1,23 @@
 'use client'
-import {  Search, Store, User } from "lucide-react";
+import { LogOut, Search, Store, User } from "lucide-react";
 import Link from "next/link";
 import { BtnSidebarCart } from "./btn_cart_sidebar";
 import { BtnLogout } from "./ui/btn_logout";
 import { CartSheet } from "./CartSheet";
 import { useState } from "react";
 import { ITCarts } from "@/db/controllers/cart.controller";
+import { ITUser } from "@/db/models/User";
 
 // ---------- TopBar ----------
 export function TopBar({
-cart,user
-}:{
-  cart:ITCarts,user:{name:string} | undefined
+  cart, user
+}: {
+  cart: ITCarts, user: ITUser | undefined
 
 }) {
-   // const { user, onLogout, onGoAccount, onGoHome, onOpenCart, cartCount }
-  
-       const [onOpenCart, setOnOpenCart] = useState(false)
-   
+  // const { user, onLogout, onGoAccount, onGoHome, onOpenCart, cartCount }
+
+  const [onOpenCart, setOnOpenCart] = useState(false)
   return (<>
     <header className="sticky top-0 z-50 backdrop-blur bg-white/70 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,11 +42,12 @@ cart,user
             <div className="h-6 w-px bg-slate-200" />
             {user ? (
               <div className="flex items-center gap-2">
-                <span className="hidden sm:block text-sm">Bonjour, {user?.name}</span>
+                <span className="hidden sm:block text-sm">Bonjour, {user?.firstName} {user?.lastName}</span>
                 <Link href='/account' className="rounded-xl p-2 hover:bg-slate-100" >
-                  <User className="w-6 h-6" />
                 </Link>
-               <BtnLogout />
+                <BtnLogout>
+                  <LogOut className="w-4 h-4" />
+                </BtnLogout>
               </div>
             ) : (
               <Link href='/account' className="rounded-xl p-2 hover:bg-slate-100" >
@@ -59,6 +60,6 @@ cart,user
     </header>
     <CartSheet open={onOpenCart} onClose={setOnOpenCart} items={cart.items} subtotal={cart.subtotal} discount={cart.discount} taxes={cart.taxes} total={cart.total} shipping={cart.shipping} />
   </>
-  
+
   );
 }

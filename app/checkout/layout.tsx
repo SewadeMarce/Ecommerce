@@ -9,9 +9,6 @@ export default function Checkout({
 }
 
 ) {
-  //{ user, onLogin, addresses, setAddresses, coupon, setCoupon, cart, subtotal, discount, shipping, taxes, total, onPay, onBack }
-
-
 
 
 

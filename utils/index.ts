@@ -21,12 +21,12 @@ export function generateToken(payload:ITPayload | string | object | Buffer<Array
     return  jwt.sign(payload,JWT_SECRET,opts)
  
 }
-export function verifyToken(token:string):string | JwtPayload | null {
+export  function verifyToken(token:string):ITPayload | JwtPayload | null {
 
     try {
-        return jwt.verify(token,JWT_SECRET)
+        return  jwt.verify(token,JWT_SECRET) as ITPayload
     } catch (error) {
-        console.log('erreur lors de lea vérification du token',error);
+       // console.error('erreur lors de la vérification du token',error);
         return null
         
     }

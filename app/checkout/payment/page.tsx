@@ -1,9 +1,11 @@
 import { Card } from "@/components/Card";
 import { FormPayment } from "@/components/Payment";
+import { getCart } from "@/db/controllers/cart.controller";
 
-export default function Payment() {
+export default async function Payment() {
+const {totalAmount} =    await getCart()
 
     return <Card title="Paiement sécurisé">
-           <FormPayment total={0}/>
+           <FormPayment total={totalAmount}/>
           </Card>
 }

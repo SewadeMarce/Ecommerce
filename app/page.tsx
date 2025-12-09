@@ -3,6 +3,7 @@ import ListProducts from '@/components/ListProducts';
 import { SearchFilter } from '@/components/SearchFilter';
 import { getProducts } from '@/db/controllers/ecommerce.controller';
 import { getOrder } from '@/db/controllers/order.controller';
+import { Suspense } from 'react';
 
 export default async function Home() {
   const products = await getProducts()
@@ -15,7 +16,7 @@ export default async function Home() {
                <h2 className="text-2xl font-bold">Catalogue</h2>
                <p className="text-slate-600">{products.length} produits trouvés</p>
              </div>
-            <SearchFilter />
+          
            </div>
      
          <ListProducts />

@@ -2,6 +2,7 @@ import mongoose, { model, Model, models, Schema } from "mongoose";
 import { ITCartItem } from "./Cart";
 
 export interface IAddress {
+    _id:mongoose.Types.ObjectId;
     phone: string;
     city: string;
     line1: string;
@@ -10,10 +11,11 @@ export interface IAddress {
 }
 
 export interface ITOrder {
-    user: mongoose.Types.ObjectId
-    items: ITCartItem[]
-    uid: string
-    total: number
+        _id:mongoose.Types.ObjectId;
+    user: mongoose.Types.ObjectId,
+    items: ITCartItem[],
+    uid: string,
+    total: number,
     shipMethod:string,
     paymentMethod: 'carte' | 'paypal' | 'virement' | 'cash';
     paymentStatus: 'en_attente' | 'confirmee' | 'expediee' | 'livree' | 'annulee';
@@ -23,6 +25,7 @@ export interface ITOrder {
     discount: number,
     shipping: number,
     taxes: number,
+    createdAt:Date
 
 
 }
