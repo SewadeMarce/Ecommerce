@@ -4,7 +4,7 @@ export default function () {
 
     return <Card title="Favoris">
         <div className="grid sm:grid-cols-2 gap-3">
-            {favorites.map((id) => {
+            {/* {favorites.map((id) => {
                 const p = products.find((x) => x.id === id);
                 if (!p) return null;
                 return (
@@ -20,7 +20,7 @@ export default function () {
                     </div>
                 );
             })}
-            {favorites.length === 0 && <div className="text-sm text-slate-600">Aucun favori.</div>}
+            {favorites.length === 0 && <div className="text-sm text-slate-600">Aucun favori.</div>} */}
         </div>
     </Card>
 }
