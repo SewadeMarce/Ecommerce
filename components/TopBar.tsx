@@ -15,14 +15,13 @@ export function TopBar({
   cart: ITCarts, user: ITUser | undefined
 
 }) {
-  // const { user, onLogout, onGoAccount, onGoHome, onOpenCart, cartCount }
 
   const [onOpenCart, setOnOpenCart] = useState(false)
   return (<>
     <header className="sticky top-0 z-50 backdrop-blur bg-white/70 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href='/home' className="flex items-center gap-2" >
+          <Link href='/' className="flex items-center gap-2" >
             <Store className="w-6 h-6" />
             <span className="font-bold text-lg">Aether Shop</span>
           </Link>

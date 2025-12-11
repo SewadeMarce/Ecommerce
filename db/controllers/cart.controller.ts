@@ -11,7 +11,7 @@ import { getUser } from "./user.controller"
 export async function addItem(product: mongoose.Types.ObjectId, price: number) {
     await connectDB()
     const user = await getUser()
-    if (!user) return
+    if (!user) return { success: false, message: 'Veillez vous connectez' }
     let cart = await Cart.findOne({ user: user._id })
 
     if (!cart) {
@@ -28,7 +28,6 @@ export async function addItem(product: mongoose.Types.ObjectId, price: number) {
         const itemIndex = cart.items.findIndex(item =>
             item.product.toString() === product.toString()
         )
-        console.log({ itemIndex });
 
         if (itemIndex > - 1) {
             cart.items[itemIndex].quantity += 1
@@ -44,7 +43,7 @@ export async function addItem(product: mongoose.Types.ObjectId, price: number) {
         cart.save()
     }
     revalidatePath('/')
-    return JSON.parse(JSON.stringify(cart))
+    return { success: true, message: 'Produit ajouter ' }
 }
 
 
@@ -52,7 +51,7 @@ export async function removeItem(product: mongoose.Types.ObjectId) {
 
     await connectDB()
     const user = await getUser()
-    if (!user) return
+    if (!user) return { success: false, message: 'Veillez vous connectez' }
 
     await Cart.findOneAndUpdate({
         user: user._id,
@@ -62,6 +61,7 @@ export async function removeItem(product: mongoose.Types.ObjectId) {
         }
     )
     revalidatePath('/')
+    return { success: true, message: 'Produit suprimé' }
 }
 
 export async function updateItemQuantity(product: mongoose.Types.ObjectId, quantity: number) {
@@ -82,6 +82,7 @@ export async function updateItemQuantity(product: mongoose.Types.ObjectId, quant
         }
     )
     revalidatePath('/')
+    return { success: true, message: 'Quantité modifié' }
 
 }
 export interface ITCartItems {
@@ -148,7 +149,7 @@ export async function getCart(): Promise<ITCarts> {
 export async function getProductOfCart(id: string) {
     await connectDB()
     const user = await getUser()
-    if (!user) return
+    if (!user) return { success: false, message: 'Veillez vous connectez' }
     const cart = await Cart.findOne({ user: user._id }).limit(5);
 
 

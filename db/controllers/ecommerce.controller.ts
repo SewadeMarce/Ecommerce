@@ -113,17 +113,6 @@ export async function getProduct(id:string) {
 const CATEGORIES = ["All", "Shoes", "Apparel", "Bags", "Wearables"];
 
 
-export async function getCart() {
-
-  await connectDB()
-
-  const data = Cart.find({}).lean()
-  console.log({ data });
-
-  return JSON.parse(JSON.stringify(data))
-
-
-}
 
 
 export async function createProducts() {

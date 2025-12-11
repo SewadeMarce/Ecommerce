@@ -5,7 +5,7 @@ import Cart from "../models/Cart";
 import Coupon from "../models/Coupon";
 import Order from "../models/Order";
 import { redirect } from "next/navigation";
-const user = '6928b5e6d40a3ce89817b0a3'
+import { getUser } from "./user.controller";
 
 export async function createAdress(state: { message: string, success: boolean } | undefined, formData: FormData): Promise<{ message: string, success: boolean }> {
 
@@ -23,12 +23,13 @@ export async function createAdress(state: { message: string, success: boolean } 
         name
     }
     await connectDB()
-
+    const user = await getUser()
+    if (!user) return { message: "Authentification réquis", success: false }
     try {
 
-        const cart = await Cart.findOne({ user })
+        const cart = await Cart.findOne({ user: user._id })
         const subtotal = cart?.getTotalPrice() || 0;
-        const coupon = await Coupon.findOne({ user, isActive: true });
+        const coupon = await Coupon.findOne({ user: user._id, isActive: true });
         const discount = coupon?.discount || 0
         const shipping = subtotal > 150 || subtotal === 0 ? 0 : 6.9;
 
@@ -38,7 +39,7 @@ export async function createAdress(state: { message: string, success: boolean } 
 
         const data = {
             uid: uid(),
-            user,
+            user: user._id,
             items: cart?.items,
             subtotal,
             total,
@@ -50,7 +51,6 @@ export async function createAdress(state: { message: string, success: boolean } 
         }
 
         const order = await Order.create(data)
-        console.log({ order });
 
         if (!order) return {
             success: false,
@@ -60,7 +60,6 @@ export async function createAdress(state: { message: string, success: boolean } 
 
     } catch (error) {
         console.error('Une erreur lors de la création des commande', error);
-        console.log('Une erreur lors de la création des commande', error);
         return {
             success: false,
             message: 'Non effectué'
@@ -72,13 +71,11 @@ export async function createAdress(state: { message: string, success: boolean } 
 
 export async function createShipping(ship: string): Promise<{ message: string, success: boolean }> {
     await connectDB()
-
-
+    const user = await getUser()
+    if (!user) return { message: "Authentification réquis", success: false }
     try {
 
-
-
-        const order = await Order.findOneAndUpdate({ user }, { shipMethod: ship?.toString() })
+        const order = await Order.findOneAndUpdate({ user: user._id }, { shipMethod: ship?.toString() })
 
         if (!order) return {
             success: false,
@@ -98,26 +95,26 @@ export async function createShipping(ship: string): Promise<{ message: string, s
 export async function createPayment(state: { message: string, success: boolean } | undefined, formData: FormData): Promise<{ message: string, success: boolean }> {
     await connectDB()
 
-    let id ;
+    let id;
 
+    await connectDB()
+    const user = await getUser()
+    if (!user) return { message: "Authentification réquis", success: false }
     try {
 
-
-
-        const order = await Order.findOneAndUpdate({ user }, { paymentMethod: 'card' })
+        const order = await Order.findOneAndUpdate({ user: user._id }, { paymentMethod: 'card' })
 
         if (!order) return {
             success: false,
-            message: ' order Non effectué'
+            message: ' payement Non effectué'
         }
-        const cart = await Cart.findOneAndDelete({user})
+        const cart = await Cart.findOneAndDelete({ user: user._id })
         if (!cart) return {
             success: false,
-            message: 'cart Non effectué'
+            message: 'payement Non effectué'
         }
         id = order._id;
-        console.log(id);
-        
+
     } catch (error) {
         console.error('Une erreur lors de la création des commande', error);
         return {
@@ -131,7 +128,8 @@ export async function createPayment(state: { message: string, success: boolean }
 export async function getOrder() {
 
     await connectDB()
-
-    const order = await Order.find({})
+    const user = await getUser()
+    if (!user) return { message: "Authentification réquis", success: false }
+    const order = await Order.find({user:user._id})
     return JSON.parse(JSON.stringify(order))
 }

@@ -14,8 +14,8 @@ export function BtnAdd({
         startTransition(async () => {
             try {
 
-                await addItem(p._id, p.price);
-                console.log('Produit ajouté');
+                const state = await addItem(p._id, p.price);
+                console.log({ state });
 
             } catch (err) {
                 console.error("erreor lors de l'ajout", err);

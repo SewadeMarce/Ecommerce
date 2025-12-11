@@ -15,7 +15,6 @@ export function FormPayment({
 const [state,action,pending]= useActionState<{ message: string, success: boolean } | undefined, FormData>(createPayment,undefined)
     return <form action={action}>
         <div className="grid sm:grid-cols-2 gap-3">
-            <span>{state?.message}</span>
             <input placeholder="Titulaire de la carte" className="rounded-xl border px-3 py-2" />
             <input placeholder="Numéro de carte" className="rounded-xl border px-3 py-2" />
             <input placeholder="MM/AA" className="rounded-xl border px-3 py-2" />

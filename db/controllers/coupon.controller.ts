@@ -1,11 +1,14 @@
 'use server'
 import { connectDB } from "../connection/mongoose";
 import Coupon from "../models/Coupon";
-const user = '6928b5e6d40a3ce89817b0a3'
+import { getUser } from "./user.controller";
 
 export const getCoupon = async () => {
+    const user = await getUser()
+    if (!user) return { success: false, message: 'Veillez vous connectez' }
+
     try {
-        const coupon = await Coupon.findOne({ user, isActive: true });
+        const coupon = await Coupon.findOne({ user: user._id, isActive: true });
         return {
             coupon: coupon || null
         };
@@ -24,10 +27,13 @@ export interface State {
     code?: string,
     discount?: number,
 }
-export const validateCoupon = async ( code: string): Promise<State> => {
+export const validateCoupon = async (code: string): Promise<State> => {
     await connectDB()
+    const user = await getUser()
+    if (!user) return { success: false, message: 'Veillez vous connectez' }
+
     try {
-        const coupon = await Coupon.findOne({ code, user, isActive: true });
+        const coupon = await Coupon.findOne({ code, user: user._id, isActive: true });
 
         if (!coupon) {
             return {

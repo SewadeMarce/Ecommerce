@@ -4,7 +4,7 @@ import { ITProducts } from "@/db/models/Product";
 import { cls, currency } from "@/utils";
 import { Heart, Star } from "lucide-react";
 import Link from "next/link";
-import {  useTransition } from "react";
+import { useTransition } from "react";
 
 export function ProductCard({
   p
@@ -17,9 +17,9 @@ export function ProductCard({
     startTransition(async () => {
       try {
 
-        await addItem(p._id, p.price);
-        console.log('Produit ajouté');
-        
+        const state = await addItem(p._id, p.price);
+        console.log({state});
+
       } catch (err) {
         console.error("erreor lors de l'ajout", err);
         return

@@ -14,8 +14,6 @@ export async function authUser(satate: { success: boolean, message: string } | u
     const email = (formData.get('email') || "").toString();
     const password = (formData.get('password') || "").toString();
     const register = (formData.get('register') || "").toString();
-    console.log({ register, email });
-
     try {
 
         if (register) {
@@ -62,11 +60,11 @@ export async function authUser(satate: { success: boolean, message: string } | u
             //vérification de l'utilisateur
             const user = await User.findOne({ email })
 
-            if (!user) return { success: false, message: "email invalide" };
+            if (!user) return { success: false, message: "email ou password invalide" };
 
             const ispassword = await comparePassword(password, user.password)
 
-            if (!ispassword) return { success: false, message: "password invalide" }
+            if (!ispassword) return { success: false, message: " email ou password invalide" }
 
             const cookiesStore = await cookies()
             const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
@@ -89,8 +87,9 @@ export async function authUser(satate: { success: boolean, message: string } | u
             return JSON.parse(JSON.stringify(user))
         }
     } catch (error) {
-        console.log("erreur lors de l'authentification", error);
-        return
+        console.error("erreur lors de l'authentification", error);
+        return { success: false, message: 'utilisateur non ennrégistré' }
+
     }
 }
 

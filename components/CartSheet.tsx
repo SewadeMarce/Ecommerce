@@ -27,7 +27,9 @@ export function CartSheet({
           </div>
 
           <div className="p-4 space-y-3 max-h-[55vh] overflow-auto">
-            {items.map((it) => (
+            {items?.length === 0 ? <div className="text-slate-500 text-sm">Votre panier est vide.</div>
+            :<>
+              {items.map((it) => (
               <div key={(it._id.toString())} className="flex gap-3 border rounded-xl p-3">
                 <Image src={`/images/${it.product.images[0]}`} width={20} height={20} alt={it.product.title} className="w-20 h-20 object-cover rounded-lg" />
                 <div className="flex-1">
@@ -42,7 +44,7 @@ export function CartSheet({
                 </div>
               </div>
             ))}
-            {items.length === 0 && <div className="text-slate-500 text-sm">Votre panier est vide.</div>}
+            </>}
           </div>
 
           <div className="p-4 border-t space-y-3">

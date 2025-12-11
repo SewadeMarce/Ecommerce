@@ -14,7 +14,7 @@ export default async function Page({
       <h2 className="mt-4 text-2xl font-bold">Merci pour votre commande !</h2>
       <p className="text-slate-600 mt-1">Numéro de commande <span className="font-mono">{id}</span></p>
       <div className="mt-6 flex gap-3 justify-center">
-        <Link href={'/'} className="px-5 py-3 rounded-2xl bg-slate-900 text-white">Voir mes commandes</Link >
+        <Link href={'/account/orders'} className="px-5 py-3 rounded-2xl bg-slate-900 text-white">Voir mes commandes</Link >
         <Link  href={'/'} className="px-5 py-3 rounded-2xl border">Retour à l&#39;accueil</Link >
       </div>
     </section>

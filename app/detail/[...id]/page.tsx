@@ -12,14 +12,9 @@ export default async function ProductDetail({
 }: {
   params: { id: string[] }
 }) {
-  // { product: p, favorites, onToggleFav, onBack, onAdd, onBuyNow }
-
-  // const [index, setIndex] = useState(0);
-  // const [sel, setSel] = useState(Object.fromEntries(Object.keys(p.variants || {}).map((k) => [k, p.variants[k][0]])));
-  // const [qty, setQty] = useState(1);
   const id = (await params).id
   const p = await getProduct(id[1])
-const pcart = await getProductOfCart(id[1])
+//const pcart = await getProductOfCart(id[1])
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -67,7 +62,7 @@ const pcart = await getProductOfCart(id[1])
           </div>
         </div>
 
-       <CartItemControls productId={p._id} quantity={pcart?.quantity ? pcart.quantity:0}/>
+       {/* <CartItemControls productId={p._id} quantity={pcart?.quantity ? pcart.quantity:0}/> */}
 
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
